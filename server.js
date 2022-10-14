@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const morgan = require('morgan');
 
 module.exports = app;
 
@@ -14,8 +15,9 @@ const PORT = process.env.PORT || 4001;
 app.use(cors())
 
 // Add middware for parsing request bodies here:
-app.use(bodyParser());
+app.use(bodyParser.json());
 
+app.use(morgan('dev'))
 
 // Mount your existing apiRouter below at the '/api' path.
 const apiRouter = require('./server/api');
