@@ -96,16 +96,22 @@ minionsRouter.put('/:id', (req, res) => {
 
 // Delete a minion by id
 minionsRouter.delete('/:id', (req, res) => {
-    const minionFound = findMinion(req.params.id, minions);
+    // const minionFound = findMinion(req.params.id, minions);
 
-    if (!minionFound) {
-        res.status(404).send(`There is no minion with Id ${req.params.id}`)
+    // if (!minionFound) {
+    //     res.status(404).send(`There is no minion with Id ${req.params.id}`)
+    // }
+
+    // const minionIndex = getIndexbyId(req.params.id, minions);
+    // minions.splice(minionIndex, 1);
+
+    // res.status(202).send(minions);
+    const minionToDelete = deleteFromDatabasebyId('minions', req.params.id);
+    if (!minionToDelete) {
+        res.status(404).send();
     }
 
-    const minionIndex = getIndexbyId(req.params.id, minions);
-    minions.splice(minionIndex, 1);
-
-    res.status(202).send(minions);
+    res.status(204).send()
 })
 
 module.exports = minionsRouter;
