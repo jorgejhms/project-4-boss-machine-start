@@ -53,14 +53,14 @@ minionsRouter.get('/', (req, res) => {
 // Create a new minion
 minionsRouter.post('/', (req, res) => {
 
-    const foundMinion = findMinion(req.query, minions);
+    const foundMinion = findMinion(req.body, minions);
 
     if (foundMinion) {
         return res.status(400).send(`Minion already exists`);
     }
 
     // Create a new minion
-    const newMinion = createMinion(req.query);
+    const newMinion = createMinion(req.body);
 
     if (newMinion) {
         minions.push(newMinion);
