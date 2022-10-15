@@ -63,59 +63,48 @@ minionsRouter.get('/', (req, res) => {
 // Create a new minion
 minionsRouter.post('/', (req, res) => {
 
-    const foundMinion = findMinion(req.body, minions);
-
-    if (foundMinion) {
-        return res.status(400).send(`Minion already exists`);
+    // Check if body is empty
+    if (!Object.keys(req.body).length) {
+        return res.status(400).send("Bad request");
     }
 
-    // Create a new minion
-    const newMinion = createMinion(req.body);
-
-    if (newMinion) {
-        minions.push(newMinion);
-        res.status(201).send(newMinion);
-    } else {
-        res.status(400).send("Bad request");
-    }
-
+    const newMinion = addToDatabase('minions', req.body);
+    res.status(201).send(newMinion);
 })
 
 // Get a single minion
 minionsRouter.get('/:id', (req, res) => {
-    const minionId = req.params.id;
-
-    const minionFound = findMinion(req.params.id, minions);
-
-    return minionFound ?
-        res.send(minionFound) :
-        res.send(`There is no minion with ID ${minionId}`);
-
+    const foundMinion = getFromDatabaseById('minions', req.params.id);
+    if (!foundMinion) {
+        res.status(404).send(`Minion with Id ${req.params.id} not found`);
+    }
+    res.status(200).send(foundMinion);
 })
 
 // Update a single minion by id
 minionsRouter.put('/:id', (req, res) => {
-    const minionId = req.params.id;
-    const minionFound = findMinion(minionId, minions);
-    const complete = checkCompleteArg(req.body);
+    // const minionId = req.params.id;
+    // const minionFound = findMinion(minionId, minions);
+    // const complete = checkCompleteArg(req.body);
 
-    if (!complete) {
-        res.status(400).send("Bad Request");
-    }
+    // if (!complete) {
+    //     res.status(400).send("Bad Request");
+    // }
 
-    if (!minionFound) {
-        res.status(404).send(`There is no minion with ID ${minionId}`);
-    }
+    // if (!minionFound) {
+    //     res.status(404).send(`There is no minion with ID ${minionId}`);
+    // }
 
-    const newMinion = {
-        'id': Number(req.body.id),
-        'name': req.body.name,
-        'age': Number(req.body.age)
-    }
+    // const newMinion = {
+    //     'id': Number(req.body.id),
+    //     'name': req.body.name,
+    //     'age': Number(req.body.age)
+    // }
 
-    const minionIndex = getIndexbyId(minionId, minions);
-    minions[minionIndex] = newMinion;
-    res.status(200).send(minions[minionIndex]);
+    // const minionIndex = getIndexbyId(minionId, minions);
+    // minions[minionIndex] = newMinion;
+    // res.status(200).send(minions[minionIndex]);
+
 })
 
 // Delete a minion by id
