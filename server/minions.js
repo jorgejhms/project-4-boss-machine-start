@@ -10,9 +10,9 @@ let minions = [
 
 // Functions
 const createMinion = (queryArguments) => {
-    if (queryArguments.hasOwnProperty('id') &&
-        queryArguments.hasOwnProperty('name') &&
-        queryArguments.hasOwnProperty('age')) {
+    const complete = checkCompleteArg(queryArguments);
+
+    if (complete) {
         return {
             'id': Number(queryArguments.id),
             'name': queryArguments.name,
@@ -20,6 +20,15 @@ const createMinion = (queryArguments) => {
         }
     }
 
+    return false;
+}
+
+const checkCompleteArg = args => {
+    if (args.hasOwnProperty('id') &&
+        args.hasOwnProperty('name') &&
+        args.hasOwnProperty('age')) {
+        return true
+    }
     return false;
 }
 
@@ -76,8 +85,13 @@ minionsRouter.get('/:id', (req, res) => {
 
 // Update a single minion by id
 minionsRouter.put('/:id', (req, res) => {
-    const minionId = req.query.id;
+    const minionId = req.params.id;
     const minionFound = findMinion(minionId, minions);
+    const complete = checkCompleteArg(req.query);
+
+    if (!complete) {
+        res.status(400).send("Bad Request");
+    }
 
     if (!minionFound) {
         res.status(404).send(`There is no minion with ID ${minionId}`);
@@ -95,5 +109,17 @@ minionsRouter.put('/:id', (req, res) => {
 })
 
 // Delete a minion by id
+minionsRouter.delete('/:id', (req, res) => {
+    const minionFound = findMinion(req.params.id, minions);
+
+    if (!minionFound) {
+        res.status(404).send(`There is no minion with Id ${req.params.id}`)
+    }
+
+    const minionIndex = getIndexbyId(req.params.id, minions);
+    minions.splice(minionIndex, 1);
+
+    res.status(202).send(minions);
+})
 
 module.exports = minionsRouter;
