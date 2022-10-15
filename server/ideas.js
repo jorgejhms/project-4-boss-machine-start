@@ -13,11 +13,12 @@ const {
 } = require('./db');
 
 // Check id param
-ideasRouter.use('id', (req, res, next, id) => {
+ideasRouter.param('id', (req, res, next, id) => {
     const foundIdea = getFromDatabaseById('ideas', id);
     if (!foundIdea) {
         res.status(404).send(`Idea with id ${id} not found`);
     }
+
     req.idea = foundIdea;
     next();
 })
@@ -32,7 +33,7 @@ ideasRouter.post('/', (req, res) => {
 
     // Check if body is empty
     if (!Object.keys(req.body).length) {
-        return req.status(400).send("Bad request");
+        return res.status(400).send("Bad request");
     }
 
     const newIdea = addToDatabase('ideas', req.body);
@@ -40,12 +41,10 @@ ideasRouter.post('/', (req, res) => {
 });
 
 // Get idea by id
-ideasRouter.get('/:id', (req, res) => {
-    // const foundIdea = getFromDatabaseById('ideas', req.params.id);
-    // if (!foundIdea) {
-    //     res.status(404).send(`Idea with id ${req.params.id} not found`);
-    // }
-    res.status(200).send(req.idea);
+ideasRouter.get('/:id', (req, res, next) => {
+    // console.log(req.idea);
+    // res.status(200).send(req.idea);
+    res.send(req.idea)
 });
 
 // Update a single idea by id
