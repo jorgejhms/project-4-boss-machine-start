@@ -31,13 +31,14 @@ minionsRouter.get('/', (req, res) => {
 // Create a new minion
 minionsRouter.post('/', (req, res) => {
 
-    const minionID = req.query.id;
-
+    // Check if minion already exists
     const minionExists = minions.find(minion => req.query.id == minion.id);
 
     if (minionExists) {
-        return res.status(400).send("Minion already exists");
+        return res.status(400).send(`Minion already exists`);
     }
+
+    // Create a new minion
 
     const newMinion = createMinion(req.query);
 
