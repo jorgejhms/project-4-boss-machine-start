@@ -18,9 +18,9 @@ const createMinion = (queryArguments) => {
             'name': queryArguments.name,
             'age': Number(queryArguments.age)
         }
-    } else {
-        return false;
     }
+
+    return false;
 }
 
 const findMinion = (id, arr) => {
@@ -38,11 +38,9 @@ minionsRouter.get('/', (req, res) => {
 // Create a new minion
 minionsRouter.post('/', (req, res) => {
 
-    // Check if minion already exists
-    // const minionExists = minions.find(minion => req.query.id == minion.id);
-    const minionExists = findMinion(req.query, minions);
+    const foundMinion = findMinion(req.query, minions);
 
-    if (minionExists) {
+    if (foundMinion) {
         return res.status(400).send(`Minion already exists`);
     }
 
@@ -73,12 +71,9 @@ minionsRouter.get('/:id', (req, res) => {
 // Update a single minion by id
 minionsRouter.put('/:id', (req, res) => {
     const minionId = req.query.id;
-    const minionFound = minions.find(minions => minions.id == minionId);
-
-    console.log(minionFound);
+    const minionFound = findMinion(minionId, minions);
 
     if (!minionFound) {
-
         res.status(404).send(`There is no minion with ID ${minionId}`);
     }
 
@@ -91,8 +86,6 @@ minionsRouter.put('/:id', (req, res) => {
     minions[minionId] = newMinion;
 
     res.status(200).send(minions[minionId]);
-
-
 
 })
 
