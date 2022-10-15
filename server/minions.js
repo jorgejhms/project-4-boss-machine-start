@@ -1,6 +1,8 @@
 const express = require('express');
 const minionsRouter = express.Router();
 
+module.exports = minionsRouter;
+
 // Import from database
 const {
     getAllFromDatabase,
@@ -12,7 +14,6 @@ const {
 
 // Get an array of minions
 minionsRouter.get('/', (req, res) => {
-    // res.send(minions);
     res.send(getAllFromDatabase('minions'));
 })
 
@@ -46,7 +47,6 @@ minionsRouter.put('/:id', (req, res) => {
     }
 
     const minionToUpdate = updateInstanceInDatabase('minions', req.body);
-    console.log(minionToUpdate);
     res.send(minionToUpdate);
 })
 
@@ -60,4 +60,3 @@ minionsRouter.delete('/:id', (req, res) => {
     res.status(204).send()
 })
 
-module.exports = minionsRouter;
