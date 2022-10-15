@@ -7,5 +7,4 @@ const minionsRouter = require('./minions');
 
 app.use('/api/minions', minionsRouter);
 
-
 module.exports = apiRouter;
