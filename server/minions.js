@@ -39,7 +39,6 @@ minionsRouter.post('/', (req, res) => {
     }
 
     // Create a new minion
-
     const newMinion = createMinion(req.query);
 
     if (newMinion) {
@@ -65,5 +64,9 @@ minionsRouter.get('/:id', (req, res) => {
         res.send(minionFound);
     }
 })
+
+// Update a single minion by id
+
+// Delete aa minion by id
 
 module.exports = minionsRouter;
