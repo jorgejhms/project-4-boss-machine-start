@@ -1,53 +1,63 @@
 const express = require('express');
 const minionsRouter = express.Router();
 
+// Import from database
+const {
+    getAllFromDatabase,
+    getFromDatabaseById,
+    addToDatabase,
+    updateInstanceInDatabase,
+    deleteFromDatabasebyId
+} = require('./db');
+
 // Test array
-let minions = [
-    { 'id': 01, "name": 'minion1', 'age': 15 },
-    { 'id': 02, "name": 'minion2', 'age': 66 },
-    { 'id': 03, "name": 'minion3', 'age': 999 },
-]
+// let minions = [
+//     { 'id': 01, "name": 'minion1', 'age': 15 },
+//     { 'id': 02, "name": 'minion2', 'age': 66 },
+//     { 'id': 03, "name": 'minion3', 'age': 999 },
+// ]
 
 // Functions
-const createMinion = (queryArguments) => {
-    const complete = checkCompleteArg(queryArguments);
+// const createMinion = (queryArguments) => {
+//     const complete = checkCompleteArg(queryArguments);
 
-    if (complete) {
-        return {
-            'id': Number(queryArguments.id),
-            'name': queryArguments.name,
-            'age': Number(queryArguments.age)
-        }
-    }
+//     if (complete) {
+//         return {
+//             'id': Number(queryArguments.id),
+//             'name': queryArguments.name,
+//             'age': Number(queryArguments.age)
+//         }
+//     }
 
-    return false;
-}
+//     return false;
+// }
 
-const checkCompleteArg = args => {
-    if (args.hasOwnProperty('id') &&
-        args.hasOwnProperty('name') &&
-        args.hasOwnProperty('age')) {
-        return true
-    }
-    return false;
-}
+// const checkCompleteArg = args => {
+//     if (args.hasOwnProperty('id') &&
+//         args.hasOwnProperty('name') &&
+//         args.hasOwnProperty('age')) {
+//         return true
+//     }
+//     return false;
+// }
 
-const findMinion = (id, arr) => {
-    console.log(arr);
-    const foundMinion = arr.find(minion => id == minion.id);
-    console.log(foundMinion);
-    return foundMinion ? foundMinion : false;
-}
+// const findMinion = (id, arr) => {
+//     console.log(arr);
+//     const foundMinion = arr.find(minion => id == minion.id);
+//     console.log(foundMinion);
+//     return foundMinion ? foundMinion : false;
+// }
 
-const getIndexbyId = (id, arr) => {
-    return arr.findIndex(item => {
-        return item.id === Number(id);
-    });
-};
+// const getIndexbyId = (id, arr) => {
+//     return arr.findIndex(item => {
+//         return item.id === Number(id);
+//     });
+// };
 
 // Get an array of minions
 minionsRouter.get('/', (req, res) => {
-    res.send(minions);
+    // res.send(minions);
+    res.send(getAllFromDatabase('minions'));
 })
 
 // Create a new minion
