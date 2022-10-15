@@ -83,28 +83,15 @@ minionsRouter.get('/:id', (req, res) => {
 
 // Update a single minion by id
 minionsRouter.put('/:id', (req, res) => {
-    // const minionId = req.params.id;
-    // const minionFound = findMinion(minionId, minions);
-    // const complete = checkCompleteArg(req.body);
+    const minion = getFromDatabaseById('minions', req.params.id);
 
-    // if (!complete) {
-    //     res.status(400).send("Bad Request");
-    // }
+    if (!minion) {
+        res.status(404).send();
+    }
 
-    // if (!minionFound) {
-    //     res.status(404).send(`There is no minion with ID ${minionId}`);
-    // }
-
-    // const newMinion = {
-    //     'id': Number(req.body.id),
-    //     'name': req.body.name,
-    //     'age': Number(req.body.age)
-    // }
-
-    // const minionIndex = getIndexbyId(minionId, minions);
-    // minions[minionIndex] = newMinion;
-    // res.status(200).send(minions[minionIndex]);
-
+    const minionToUpdate = updateInstanceInDatabase('minions', req.body);
+    console.log(minionToUpdate);
+    res.send(minionToUpdate);
 })
 
 // Delete a minion by id
