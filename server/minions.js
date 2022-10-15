@@ -87,7 +87,7 @@ minionsRouter.get('/:id', (req, res) => {
 minionsRouter.put('/:id', (req, res) => {
     const minionId = req.params.id;
     const minionFound = findMinion(minionId, minions);
-    const complete = checkCompleteArg(req.query);
+    const complete = checkCompleteArg(req.body);
 
     if (!complete) {
         res.status(400).send("Bad Request");
@@ -98,9 +98,9 @@ minionsRouter.put('/:id', (req, res) => {
     }
 
     const newMinion = {
-        'id': Number(req.query.id),
-        'name': req.query.name,
-        'age': Number(req.query.age)
+        'id': Number(req.body.id),
+        'name': req.body.name,
+        'age': Number(req.body.age)
     }
 
     const minionIndex = getIndexbyId(minionId, minions);
