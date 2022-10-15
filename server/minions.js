@@ -30,6 +30,12 @@ const findMinion = (id, arr) => {
     return foundMinion ? foundMinion : false;
 }
 
+const getIndexbyId = (id, arr) => {
+    return arr.findIndex(item => {
+        return item.id === Number(id);
+    });
+};
+
 // Get an array of minions
 minionsRouter.get('/', (req, res) => {
     res.send(minions);
@@ -83,12 +89,11 @@ minionsRouter.put('/:id', (req, res) => {
         'age': Number(req.query.age)
     }
 
-    minions[minionId] = newMinion;
-
-    res.status(200).send(minions[minionId]);
-
+    const minionIndex = getIndexbyId(minionId, minions);
+    minions[minionIndex] = newMinion;
+    res.status(200).send(minions[minionIndex]);
 })
 
-// Delete aa minion by id
+// Delete a minion by id
 
 module.exports = minionsRouter;
