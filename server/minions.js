@@ -10,50 +10,6 @@ const {
     deleteFromDatabasebyId
 } = require('./db');
 
-// Test array
-// let minions = [
-//     { 'id': 01, "name": 'minion1', 'age': 15 },
-//     { 'id': 02, "name": 'minion2', 'age': 66 },
-//     { 'id': 03, "name": 'minion3', 'age': 999 },
-// ]
-
-// Functions
-// const createMinion = (queryArguments) => {
-//     const complete = checkCompleteArg(queryArguments);
-
-//     if (complete) {
-//         return {
-//             'id': Number(queryArguments.id),
-//             'name': queryArguments.name,
-//             'age': Number(queryArguments.age)
-//         }
-//     }
-
-//     return false;
-// }
-
-// const checkCompleteArg = args => {
-//     if (args.hasOwnProperty('id') &&
-//         args.hasOwnProperty('name') &&
-//         args.hasOwnProperty('age')) {
-//         return true
-//     }
-//     return false;
-// }
-
-// const findMinion = (id, arr) => {
-//     console.log(arr);
-//     const foundMinion = arr.find(minion => id == minion.id);
-//     console.log(foundMinion);
-//     return foundMinion ? foundMinion : false;
-// }
-
-// const getIndexbyId = (id, arr) => {
-//     return arr.findIndex(item => {
-//         return item.id === Number(id);
-//     });
-// };
-
 // Get an array of minions
 minionsRouter.get('/', (req, res) => {
     // res.send(minions);
@@ -96,16 +52,6 @@ minionsRouter.put('/:id', (req, res) => {
 
 // Delete a minion by id
 minionsRouter.delete('/:id', (req, res) => {
-    // const minionFound = findMinion(req.params.id, minions);
-
-    // if (!minionFound) {
-    //     res.status(404).send(`There is no minion with Id ${req.params.id}`)
-    // }
-
-    // const minionIndex = getIndexbyId(req.params.id, minions);
-    // minions.splice(minionIndex, 1);
-
-    // res.status(202).send(minions);
     const minionToDelete = deleteFromDatabasebyId('minions', req.params.id);
     if (!minionToDelete) {
         res.status(404).send();
