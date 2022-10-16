@@ -10,7 +10,8 @@ const {
     addToDatabase,
     updateInstanceInDatabase,
     deleteFromDatabasebyId,
-    deleteAllFromDatabase
+    deleteAllFromDatabase,
+    createMeeting
 } = require('./db');
 
 // Get an array of meetings
@@ -21,12 +22,8 @@ meetingsRouter.get('/', (req, res) => {
 // Create a new meeting
 meetingsRouter.post('/', (req, res) => {
 
-    // Check if body is empty
-    if (!Object.keys(req.body).length) {
-        return res.status(400).send("Bad request");
-    }
-
-    const newMeeting = addToDatabase('meetings', req.body);
+    const newMeeting = createMeeting();
+    addToDatabase('meetings', newMeeting);
     res.status(201).send(newMeeting);
 })
 
