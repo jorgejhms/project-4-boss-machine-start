@@ -1,10 +1,11 @@
+// @ts-check
 const checkMillionDollarIdea = (req, res, next) => {
     const { numWeeks, weeklyRevenue } = req.body
     const value = Number(numWeeks) * Number(weeklyRevenue);
 
 
     if (!numWeeks || !weeklyRevenue || isNaN(value) || value < 1000000) {
-        res.status(400).send();
+        return res.status(400).send();
     }
 
     next();

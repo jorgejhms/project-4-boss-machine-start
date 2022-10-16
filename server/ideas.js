@@ -1,3 +1,4 @@
+//@ts-check
 const express = require('express');
 const ideasRouter = express.Router();
 const checkMillionDollarIdea = require('./checkMillionDollarIdea');
