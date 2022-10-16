@@ -57,3 +57,12 @@ ideasRouter.put('/:id', (req, res) => {
     const ideaToUpdate = updateInstanceInDatabase('ideas', req.body);
     res.send(ideaToUpdate);
 })
+
+// Delete an idea by id
+ideasRouter.delete('/:id', (req, res) => {
+    const ideaToDelete = deleteFromDatabasebyId('ideas', req.params.id);
+    if (!ideaToDelete) {
+        res.status(404).send();
+    }
+    res.status(204).send();
+})
